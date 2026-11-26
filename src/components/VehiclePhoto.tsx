@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CarVisual } from "@/components/CarVisual";
+import { isBlobUrl } from "@/lib/photos";
 
 /**
  * Photo d'une voiture, ou silhouette colorée si aucune photo n'est encore disponible.
@@ -30,8 +31,8 @@ export function VehiclePhoto({
         sizes={sizes}
         priority={priority}
         className="object-cover"
-        // Les adresses externes (https) sont affichées telles quelles.
-        unoptimized={photoUrl.startsWith("http")}
+        // Photos du site et de Vercel Blob : optimisées. Autres adresses externes : affichées telles quelles.
+        unoptimized={photoUrl.startsWith("http") && !isBlobUrl(photoUrl)}
       />
     </div>
   );

@@ -8,6 +8,8 @@ import type { Fuel, Gearbox } from "@/lib/estimation/types";
 import { formatDate, formatEur, formatKm, FUEL_LABELS, parseJsonList } from "@/lib/format";
 import { daysInStock, vehicleMargin } from "@/lib/vehicles";
 import { deleteVehicle } from "./actions";
+import { isPhotoStorageEnabled } from "@/lib/photos";
+import { PhotoUploader } from "./PhotoUploader";
 import { VehicleForm } from "./VehicleForm";
 
 export const dynamic = "force-dynamic";
@@ -49,9 +51,16 @@ export default async function StockVehiclePage({ params }: { params: Promise<{ i
       </PageTitle>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
-        <VehicleForm
-          v={{ ...v, checkpoints: parseJsonList(v.checkpoints), works: parseJsonList(v.works) }}
-        />
+        <div className="space-y-6">
+          <PhotoUploader
+            vehicleId={v.id}
+            photoUrl={v.photoUrl}
+            color={v.color}
+            label={`${v.make} ${v.model}`}
+            storageEnabled={isPhotoStorageEnabled()}
+          />
+          <VehicleForm v={{ ...v, checkpoints: parseJsonList(v.checkpoints), works: parseJsonList(v.works) }} />
+        </div>
 
         <aside className="space-y-4">
           <div className="card p-5">

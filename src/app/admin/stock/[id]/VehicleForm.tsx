@@ -12,7 +12,6 @@ export interface VehicleFormData {
   color: string | null;
   mileage: number;
   description: string | null;
-  photoUrl: string | null;
   purchaseCountry: string;
   purchasePrice: number | null;
   importCosts: number;
@@ -97,13 +96,6 @@ export function VehicleForm({ v }: { v: VehicleFormData }) {
           <Field label="Finition" name="trim" defaultValue={v.trim} />
           <Field label="Couleur" name="color" defaultValue={v.color} />
           <Field label="Kilométrage" name="mileage" type="number" defaultValue={v.mileage} />
-        </div>
-        <div>
-          <label className="label" htmlFor="photoUrl">
-            Photo principale (adresse)
-          </label>
-          <input id="photoUrl" name="photoUrl" defaultValue={v.photoUrl ?? ""} placeholder="/images/vehicules/ma-voiture.jpg ou https://…" className="field" />
-          <p className="mt-1 text-xs text-muted">Format conseillé : 1100 × 926 pixels (proportions 550 × 463).</p>
         </div>
         <div>
           <label className="label" htmlFor="description">

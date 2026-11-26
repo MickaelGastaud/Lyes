@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { CHECKPOINTS, VEHICLE_STATUSES } from "@/lib/config";
+import { del } from "@vercel/blob";
 import { db } from "@/lib/db";
+import { isBlobUrl } from "@/lib/photos";
 
 /** Montant en euros : vide = non renseigné, sinon entier positif. */
 const money = z.string().transform((raw, ctx) => {
@@ -26,11 +28,6 @@ const UpdateSchema = z.object({
   color: z.string().trim().max(60),
   mileage: z.coerce.number().int().min(0),
   description: z.string().trim().max(3000),
-  photoUrl: z
-    .string()
-    .trim()
-    .max(500)
-    .refine((u) => u === "" || u.startsWith("/") || u.startsWith("https://"), "Adresse de photo invalide"),
   purchaseCountry: z.string().max(10),
   purchasePrice: money,
   importCosts: money,
@@ -77,7 +74,6 @@ export async function updateVehicle(_prev: UpdateState, formData: FormData): Pro
       color: d.color || null,
       mileage: d.mileage,
       description: d.description || null,
-      photoUrl: d.photoUrl || null,
       purchaseCountry: d.purchaseCountry,
       purchasePrice: d.purchasePrice,
       importCosts: d.importCosts ?? 0,
@@ -104,6 +100,9 @@ export async function deleteVehicle(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const v = await db.vehicle.findUnique({ where: { id } });
   // Par sécurité, seules les voitures encore au stade "Estimée" peuvent être supprimées.
-  if (v?.status === "ESTIMATED") await db.vehicle.delete({ where: { id } });
+  if (v?.status === "ESTIMATED") {
+    await db.vehicle.delete({ where: { id } });
+    if (isBlobUrl(v.photoUrl)) await del(v.photoUrl!).catch((e) => console.error("Photo non supprimée :", e));
+  }
   redirect("/admin/stock");
 }

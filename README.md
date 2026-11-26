@@ -84,7 +84,7 @@ src/
 | Données de marché | ~1 500 annonces fictives générées | Fournisseur de données sous licence |
 | Identification par plaque | 4 plaques de démo | API d'immatriculation (plaque / VIN) |
 | Recherche libre | Règles en français (budget, énergie, carrosserie, marque…) | Modèle d'IA pour les phrases plus libres |
-| Photos | Silhouette colorée | Envoi de photos (stockage objet) |
+| Photos | Envoi depuis le back-office (Vercel Blob) ; silhouette colorée si aucune photo | Galerie de plusieurs photos par voiture |
 | Accès admin | Identifiant + mot de passe unique | Comptes avec rôles (V2) |
 
 ## Mise en ligne sur Vercel
@@ -94,4 +94,5 @@ Le projet est prêt pour Vercel : à chaque déploiement, le script `vercel-buil
 1. Sur [vercel.com](https://vercel.com), **Add New → Project**, puis importer le dépôt GitHub `Lyes`.
 2. Dans le projet, onglet **Storage → Create Database** : choisir une base PostgreSQL (Neon, Prisma Postgres ou Supabase) et la relier au projet. Ses variables de connexion sont ajoutées automatiquement, quel que soit leur nom.
 3. **Settings → Environment Variables** : ajouter `ADMIN_PASSWORD` (et `ADMIN_USER` si besoin). Sans mot de passe, le back-office reste fermé.
-4. **Deployments → Redeploy**. Le site est en ligne ; chaque nouveau `git push` le met à jour tout seul.
+4. Pour envoyer des photos depuis le back-office : **Storage → Create Database → Blob**, et le relier au projet (la variable `BLOB_READ_WRITE_TOKEN` est ajoutée automatiquement).
+5. **Deployments → Redeploy**. Le site est en ligne ; chaque nouveau `git push` le met à jour tout seul.
