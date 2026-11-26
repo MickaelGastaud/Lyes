@@ -1,0 +1,101 @@
+// Modèle de données de Confiauto.
+// En local : SQLite (un simple fichier). En production : passer le provider à "postgresql".
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Annonce observée sur le marché français (source : fournisseur de données).
+/// Sert de "comparable" pour estimer le prix et le délai de vente.
+model MarketListing {
+  id          String    @id @default(cuid())
+  source      String // ex. "demo", puis le nom du fournisseur de données
+  make        String
+  model       String
+  trim        String?
+  bodyType    String
+  year        Int
+  mileage     Int
+  fuel        String // essence | diesel | hybride | electrique
+  gearbox     String // manuelle | automatique
+  region      String?
+  listedPrice Int // prix affiché en euros TTC
+  firstSeenAt DateTime
+  removedAt   DateTime? // annonce retirée = vente probable
+  createdAt   DateTime  @default(now())
+
+  @@index([make, model])
+}
+
+/// Voiture gérée par l'entreprise : du stade "estimée" jusqu'à "vendue".
+model Vehicle {
+  id                  String    @id @default(cuid())
+  status              String    @default("ESTIMATED") // ESTIMATED | PURCHASED | RECONDITIONING | FOR_SALE | SOLD
+  plate               String?
+  vin                 String?
+  make                String
+  model               String
+  trim                String?
+  bodyType            String
+  year                Int
+  mileage             Int
+  fuel                String
+  gearbox             String
+  color               String?
+  powerHp             Int?
+  seats               Int       @default(5)
+  description         String?
+  // Achat et coûts (euros)
+  purchaseCountry     String    @default("FR")
+  purchasePrice       Int?
+  importCosts         Int       @default(0)
+  reconditioningCosts Int       @default(0)
+  otherCosts          Int       @default(0)
+  // Vente
+  listPrice           Int? // prix affiché sur le site
+  soldPrice           Int?
+  warrantyMonths      Int       @default(12)
+  published           Boolean   @default(false)
+  checkpoints         String    @default("[]") // JSON : points de contrôle réalisés
+  works               String    @default("[]") // JSON : travaux de remise en état
+  // Dates clés
+  purchasedAt         DateTime?
+  listedAt            DateTime?
+  soldAt              DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  estimations Estimation[]
+  leads       Lead[]
+
+  @@index([status, published])
+}
+
+/// Trace de chaque estimation, pour comparer plus tard l'estimé et le réel.
+model Estimation {
+  id        String   @id @default(cuid())
+  input     String // JSON des données saisies
+  result    String // JSON du résultat calculé
+  vehicleId String?
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+}
+
+/// Demande envoyée par un client depuis une fiche véhicule (essai, réservation, question).
+model Lead {
+  id        String   @id @default(cuid())
+  type      String // ESSAI | RESERVATION | QUESTION
+  name      String
+  email     String
+  phone     String?
+  message   String?
+  handled   Boolean  @default(false)
+  vehicleId String?
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+}
