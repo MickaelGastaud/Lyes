@@ -62,7 +62,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="engagements" className="mx-auto -mt-10 grid max-w-6xl gap-4 px-4 md:grid-cols-3">
+      <section id="engagements" className="relative z-10 mx-auto -mt-10 grid max-w-6xl gap-4 px-4 md:grid-cols-3">
         {PROMISES.map((p) => (
           <div key={p.title} className="card p-6 shadow-sm">
             <h2 className="font-serif text-xl text-night">{p.title}</h2>

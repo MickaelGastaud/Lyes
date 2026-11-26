@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CarVisual } from "@/components/CarVisual";
+import { VehiclePhoto } from "@/components/VehiclePhoto";
 import { CHECKPOINTS } from "@/lib/config";
 import { db } from "@/lib/db";
 import { formatEur, formatKm, FUEL_LABELS, GEARBOX_LABELS, parseJsonList } from "@/lib/format";
@@ -47,7 +47,14 @@ export default async function VehiclePage({ params }: { params: Promise<{ id: st
 
       <div className="mt-4 grid gap-8 lg:grid-cols-[1fr_380px]">
         <div className="space-y-8">
-          <CarVisual color={v.color} label={`${v.make} ${v.model}`} className="aspect-[16/9] rounded-2xl" />
+          <VehiclePhoto
+            photoUrl={v.photoUrl}
+            color={v.color}
+            label={`${v.make} ${v.model} ${v.trim ?? ""}, ${v.year}`}
+            className="mx-auto max-w-2xl rounded-2xl"
+            sizes="(min-width: 768px) 672px, 100vw"
+            priority
+          />
 
           <section>
             <h1 className="font-serif text-4xl text-night">

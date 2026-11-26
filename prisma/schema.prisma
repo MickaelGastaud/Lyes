@@ -49,6 +49,7 @@ model Vehicle {
   powerHp             Int?
   seats               Int       @default(5)
   description         String?
+  photoUrl            String? // photo principale : "/images/vehicules/…" ou adresse https
   // Achat et coûts (euros)
   purchaseCountry     String    @default("FR")
   purchasePrice       Int?

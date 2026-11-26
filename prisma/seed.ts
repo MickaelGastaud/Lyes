@@ -87,6 +87,7 @@ interface StockSeed {
   gearbox: string;
   color: string;
   description: string;
+  photoUrl?: string;
   purchaseCountry?: string;
   purchasePrice: number;
   importCosts?: number;
@@ -101,15 +102,15 @@ interface StockSeed {
 
 const STOCK: StockSeed[] = [
   {
-    status: "FOR_SALE", plate: "GH-482-KL", make: "Toyota", model: "RAV4", trim: "Hybride 218 ch Design", year: 2022, mileage: 41_500,
-    fuel: "hybride", gearbox: "automatique", color: "Gris platine",
+    status: "FOR_SALE", plate: "GH-482-KL", photoUrl: "/images/vehicules/toyota-rav4-gh482kl.jpg", make: "Toyota", model: "RAV4", trim: "Hybride 218 ch Design", year: 2022, mileage: 41_500,
+    fuel: "hybride", gearbox: "automatique", color: "Blanc nacré, toit noir",
     description: "Première main, entretien exclusif dans le réseau Toyota. Caméra de recul, sièges chauffants, régulateur adaptatif.",
     purchasePrice: 26_800, reconditioningCosts: 650, listPrice: 32_900, daysAgoPurchased: 28, daysAgoListed: 18,
     works: ["Vidange et filtres", "Plaquettes avant neuves", "Lustrage complet"],
   },
   {
-    status: "FOR_SALE", plate: "FD-930-PR", make: "Peugeot", model: "3008", trim: "Hybrid 136 Allure e-DCS6", year: 2023, mileage: 28_000,
-    fuel: "hybride", gearbox: "automatique", color: "Bleu Céleste",
+    status: "FOR_SALE", plate: "FD-930-PR", photoUrl: "/images/vehicules/peugeot-3008-fd930pr.jpg", make: "Peugeot", model: "3008", trim: "Hybrid 136 Allure e-DCS6", year: 2023, mileage: 28_000,
+    fuel: "hybride", gearbox: "automatique", color: "Gris Platinium",
     description: "Garantie constructeur restante, i-Cockpit, navigation connectée, hayon mains libres.",
     purchasePrice: 23_400, reconditioningCosts: 400, listPrice: 28_500, daysAgoPurchased: 20, daysAgoListed: 12,
     works: ["Révision complète", "Rénovation jantes"],
@@ -122,7 +123,7 @@ const STOCK: StockSeed[] = [
     daysAgoPurchased: 40, daysAgoListed: 25, works: ["Distribution contrôlée", "Pneus Michelin neufs (x4)", "Retouches carrosserie"],
   },
   {
-    status: "FOR_SALE", plate: "GA-205-TS", make: "Tesla", model: "Model 3", trim: "Propulsion", year: 2022, mileage: 48_000,
+    status: "FOR_SALE", plate: "GA-205-TS", photoUrl: "/images/vehicules/tesla-model-3-ga205ts.jpg", make: "Tesla", model: "Model 3", trim: "Propulsion", year: 2022, mileage: 48_000,
     fuel: "electrique", gearbox: "automatique", color: "Blanc nacré",
     description: "Batterie contrôlée (état de santé 93 %), Autopilot, mise à jour logicielle récente.",
     purchasePrice: 23_200, reconditioningCosts: 300, listPrice: 28_900, daysAgoPurchased: 15, daysAgoListed: 9,
@@ -143,7 +144,7 @@ const STOCK: StockSeed[] = [
     works: ["Vidange", "Lustrage"],
   },
   {
-    status: "FOR_SALE", plate: "EW-554-JD", make: "Skoda", model: "Octavia", trim: "Combi 2.0 TDI 150 Style", year: 2021, mileage: 74_000,
+    status: "FOR_SALE", plate: "EW-554-JD", photoUrl: "/images/vehicules/skoda-octavia-ew554jd.jpg", make: "Skoda", model: "Octavia", trim: "Combi 2.0 TDI 150 Style", year: 2021, mileage: 74_000,
     fuel: "diesel", gearbox: "automatique", color: "Gris Quartz",
     description: "Break familial, coffre de 640 L, attelage, régulateur adaptatif.",
     purchasePrice: 16_400, reconditioningCosts: 700, listPrice: 20_900, daysAgoPurchased: 30, daysAgoListed: 20,
@@ -205,6 +206,7 @@ async function main() {
         powerHp: catalog.powerHp,
         seats: catalog.seats,
         description: s.description,
+        photoUrl: s.photoUrl ?? null,
         purchaseCountry: s.purchaseCountry ?? "FR",
         purchasePrice: s.purchasePrice,
         importCosts: s.importCosts ?? 0,

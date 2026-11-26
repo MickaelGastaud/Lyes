@@ -26,6 +26,11 @@ const UpdateSchema = z.object({
   color: z.string().trim().max(60),
   mileage: z.coerce.number().int().min(0),
   description: z.string().trim().max(3000),
+  photoUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((u) => u === "" || u.startsWith("/") || u.startsWith("https://"), "Adresse de photo invalide"),
   purchaseCountry: z.string().max(10),
   purchasePrice: money,
   importCosts: money,
@@ -72,6 +77,7 @@ export async function updateVehicle(_prev: UpdateState, formData: FormData): Pro
       color: d.color || null,
       mileage: d.mileage,
       description: d.description || null,
+      photoUrl: d.photoUrl || null,
       purchaseCountry: d.purchaseCountry,
       purchasePrice: d.purchasePrice,
       importCosts: d.importCosts ?? 0,

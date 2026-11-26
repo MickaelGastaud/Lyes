@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CarVisual } from "@/components/CarVisual";
+import { VehiclePhoto } from "@/components/VehiclePhoto";
 import { formatEur, formatKm, FUEL_LABELS, GEARBOX_LABELS } from "@/lib/format";
 
 export interface VehicleCardData {
@@ -12,6 +12,7 @@ export interface VehicleCardData {
   fuel: string;
   gearbox: string;
   color: string | null;
+  photoUrl: string | null;
   listPrice: number | null;
   warrantyMonths: number;
 }
@@ -19,7 +20,7 @@ export interface VehicleCardData {
 export function VehicleCard({ v }: { v: VehicleCardData }) {
   return (
     <Link href={`/voitures/${v.id}`} className="card group flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg">
-      <CarVisual color={v.color} label={`${v.make} ${v.model}`} className="aspect-[16/9]" />
+      <VehiclePhoto photoUrl={v.photoUrl} color={v.color} label={`${v.make} ${v.model} ${v.trim ?? ""}, ${v.year}`} />
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div>
           <h3 className="font-serif text-xl text-night">
