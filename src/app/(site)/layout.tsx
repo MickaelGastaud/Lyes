@@ -14,11 +14,14 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             <Link href="/voitures" className="hover:text-white">
               Nos voitures
             </Link>
-            <Link href="/#engagements" className="hidden hover:text-white sm:inline">
-              Nos engagements
+            <Link href="/#parcours" className="hidden hover:text-white sm:inline">
+              Notre méthode
+            </Link>
+            <Link href="/#garanties" className="hidden hover:text-white sm:inline">
+              Garanties
             </Link>
             <Link href="/#services" className="hidden hover:text-white sm:inline">
-              Services
+              Reprise
             </Link>
           </nav>
         </div>
@@ -31,7 +34,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           <p>
             © {new Date().getFullYear()} {BRAND.name} — achat-vente de voitures d&apos;occasion premium.
           </p>
-          <p>Voitures contrôlées · Garantie incluse · Prix transparents</p>
+          <p>Ni mandataire, ni dépôt-vente · Remise à niveau · Garantie incluse</p>
         </div>
       </footer>
     </div>

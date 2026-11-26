@@ -8,7 +8,7 @@ import { markLeadHandled } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-const LEAD_TYPES: Record<string, string> = { ESSAI: "Essai", RESERVATION: "Réservation", QUESTION: "Question" };
+const LEAD_TYPES: Record<string, string> = { ESSAI: "Essai", RESERVATION: "Réservation", QUESTION: "Question", REPRISE: "Reprise" };
 
 const avg = (xs: number[]) => (xs.length ? Math.round(xs.reduce((a, b) => a + b, 0) / xs.length) : null);
 

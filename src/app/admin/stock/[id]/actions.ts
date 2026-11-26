@@ -96,13 +96,15 @@ export async function updateVehicle(_prev: UpdateState, formData: FormData): Pro
   return { ok: true, message: "Modifications enregistrées." };
 }
 
+/** Supprime définitivement une voiture (et sa photo stockée). Les demandes clients liées sont conservées. */
 export async function deleteVehicle(formData: FormData) {
   const id = String(formData.get("id") ?? "");
-  const v = await db.vehicle.findUnique({ where: { id } });
-  // Par sécurité, seules les voitures encore au stade "Estimée" peuvent être supprimées.
-  if (v?.status === "ESTIMATED") {
+  const v = await db.vehicle.findUnique({ where: { id }, select: { photoUrl: true } });
+  if (v) {
     await db.vehicle.delete({ where: { id } });
     if (isBlobUrl(v.photoUrl)) await del(v.photoUrl!).catch((e) => console.error("Photo non supprimée :", e));
   }
+  revalidatePath("/admin", "layout");
+  revalidatePath("/", "layout");
   redirect("/admin/stock");
 }

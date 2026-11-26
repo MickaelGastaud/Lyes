@@ -4,6 +4,7 @@ import { VEHICLE_STATUSES } from "@/lib/config";
 import { db } from "@/lib/db";
 import { formatEur, formatKm } from "@/lib/format";
 import { daysInStock, vehicleMargin } from "@/lib/vehicles";
+import { DeleteVehicleButton } from "./[id]/DeleteVehicleButton";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,9 @@ export default async function StockPage({ searchParams }: { searchParams: Promis
               <th className="px-4 py-3">Marge nette</th>
               <th className="px-4 py-3">Jours en stock</th>
               <th className="px-4 py-3">Site</th>
+              <th className="px-4 py-3">
+                <span className="sr-only">Actions</span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -73,12 +77,15 @@ export default async function StockPage({ searchParams }: { searchParams: Promis
                   <td className={`px-4 py-3 ${margin && margin.netMargin < 0 ? "text-danger" : ""}`}>{margin ? formatEur(margin.netMargin) : "—"}</td>
                   <td className="px-4 py-3">{days}</td>
                   <td className="px-4 py-3">{v.published ? <span className="text-sage">En ligne</span> : <span className="text-muted">—</span>}</td>
+                  <td className="px-2 py-3 text-right">
+                    <DeleteVehicleButton id={v.id} label={`${v.make} ${v.model}`} sold={v.status === "SOLD"} />
+                  </td>
                 </tr>
               );
             })}
             {vehicles.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-10 text-center text-muted">
+                <td colSpan={8} className="px-4 py-10 text-center text-muted">
                   Aucune voiture à cette étape.
                 </td>
               </tr>

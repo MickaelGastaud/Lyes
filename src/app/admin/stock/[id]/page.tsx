@@ -7,7 +7,7 @@ import { runEstimation } from "@/lib/estimation/run";
 import type { Fuel, Gearbox } from "@/lib/estimation/types";
 import { formatDate, formatEur, formatKm, FUEL_LABELS, parseJsonList } from "@/lib/format";
 import { daysInStock, vehicleMargin } from "@/lib/vehicles";
-import { deleteVehicle } from "./actions";
+import { DeleteVehicleButton } from "./DeleteVehicleButton";
 import { isPhotoStorageEnabled } from "@/lib/photos";
 import { PhotoUploader } from "./PhotoUploader";
 import { VehicleForm } from "./VehicleForm";
@@ -137,12 +137,7 @@ export default async function StockVehiclePage({ params }: { params: Promise<{ i
             </ul>
           </div>
 
-          {v.status === "ESTIMATED" && (
-            <form action={deleteVehicle}>
-              <input type="hidden" name="id" value={v.id} />
-              <button className="w-full text-center text-xs text-danger hover:underline">Supprimer cette voiture estimée</button>
-            </form>
-          )}
+          <DeleteVehicleButton id={v.id} label={`${v.make} ${v.model}`} sold={v.status === "SOLD"} variant="full" />
         </aside>
       </div>
     </>

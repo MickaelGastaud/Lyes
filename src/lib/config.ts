@@ -4,7 +4,7 @@
  */
 export const BRAND = {
   name: "Confiauto",
-  tagline: "Des voitures d'occasion contrôlées, garanties, au prix juste.",
+  tagline: "Ni mandataire, ni dépôt-vente : chaque voiture est achetée, remise à niveau et garantie par nous.",
 };
 
 /** Horizons de vente proposés par l'estimation (en jours). */
