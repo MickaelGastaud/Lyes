@@ -10,7 +10,7 @@ Application SaaS (Next.js) qui répond au [cahier des charges](./cahier-des-char
 
 ## Démarrer en local
 
-Prérequis : Node.js 20 ou plus.
+Prérequis : Node.js 20 ou plus, et une base PostgreSQL. Le plus simple : réutiliser la base Neon créée sur Vercel (copier `DATABASE_URL` et `DATABASE_URL_UNPOOLED` depuis Vercel → Settings → Environment Variables).
 
 ```bash
 npm install
@@ -38,7 +38,8 @@ npm run dev
 | `npm test` | Lance les tests automatiques (calculs d'estimation et recherche) |
 | `npm run lint` | Vérifie la qualité du code |
 | `npm run build` | Construit la version de production |
-| `npm run db:seed` | Recharge les données de démonstration |
+| `npm run db:push` | Applique les migrations (crée ou met à jour les tables) |
+| `npm run db:seed` | Efface et recharge les données de démonstration |
 
 ## Comment ça marche (en bref)
 
@@ -86,8 +87,11 @@ src/
 | Photos | Silhouette colorée | Envoi de photos (stockage objet) |
 | Accès admin | Identifiant + mot de passe unique | Comptes avec rôles (V2) |
 
-## Mise en production
+## Mise en ligne sur Vercel
 
-1. Base de données : créer une base PostgreSQL, passer `provider = "postgresql"` dans `prisma/schema.prisma` et renseigner `DATABASE_URL`.
-2. Définir `ADMIN_USER` et `ADMIN_PASSWORD` : sans mot de passe, le back-office reste fermé en production.
-3. Déployer, par exemple sur Vercel, en reliant ce dépôt GitHub.
+Le projet est prêt pour Vercel : à chaque déploiement, le script `vercel-build` met à jour les tables (`prisma migrate deploy`), charge les données de démo si la base est vide, puis construit le site.
+
+1. Sur [vercel.com](https://vercel.com), **Add New → Project**, puis importer le dépôt GitHub `Lyes`.
+2. Dans le projet, onglet **Storage → Create Database → Neon (Postgres)**, et le relier au projet : `DATABASE_URL` et `DATABASE_URL_UNPOOLED` sont ajoutées automatiquement.
+3. **Settings → Environment Variables** : ajouter `ADMIN_PASSWORD` (et `ADMIN_USER` si besoin). Sans mot de passe, le back-office reste fermé.
+4. **Deployments → Redeploy**. Le site est en ligne ; chaque nouveau `git push` le met à jour tout seul.

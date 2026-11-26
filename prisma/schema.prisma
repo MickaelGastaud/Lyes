@@ -1,13 +1,13 @@
-// Modèle de données de Confiauto.
-// En local : SQLite (un simple fichier). En production : passer le provider à "postgresql".
+// Modèle de données de Confiauto (base PostgreSQL, en local comme en production).
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // connexion "poolée", pour l'application
+  directUrl = env("DATABASE_URL_UNPOOLED") // connexion directe, pour les migrations
 }
 
 /// Annonce observée sur le marché français (source : fournisseur de données).
