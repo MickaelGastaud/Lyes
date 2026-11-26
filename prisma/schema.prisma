@@ -5,9 +5,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL") // connexion "poolée", pour l'application
-  directUrl = env("DATABASE_URL_UNPOOLED") // connexion directe, pour les migrations
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 /// Annonce observée sur le marché français (source : fournisseur de données).

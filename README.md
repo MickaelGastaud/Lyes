@@ -10,7 +10,7 @@ Application SaaS (Next.js) qui répond au [cahier des charges](./cahier-des-char
 
 ## Démarrer en local
 
-Prérequis : Node.js 20 ou plus, et une base PostgreSQL. Le plus simple : réutiliser la base Neon créée sur Vercel (copier `DATABASE_URL` et `DATABASE_URL_UNPOOLED` depuis Vercel → Settings → Environment Variables).
+Prérequis : Node.js 20 ou plus, et une base PostgreSQL. Le plus simple : réutiliser la base créée sur Vercel (copier son adresse depuis Vercel → Settings → Environment Variables dans `DATABASE_URL`).
 
 ```bash
 npm install
@@ -92,6 +92,6 @@ src/
 Le projet est prêt pour Vercel : à chaque déploiement, le script `vercel-build` met à jour les tables (`prisma migrate deploy`), charge les données de démo si la base est vide, puis construit le site.
 
 1. Sur [vercel.com](https://vercel.com), **Add New → Project**, puis importer le dépôt GitHub `Lyes`.
-2. Dans le projet, onglet **Storage → Create Database → Neon (Postgres)**, et le relier au projet : `DATABASE_URL` et `DATABASE_URL_UNPOOLED` sont ajoutées automatiquement.
+2. Dans le projet, onglet **Storage → Create Database** : choisir une base PostgreSQL (Neon, Prisma Postgres ou Supabase) et la relier au projet. Ses variables de connexion sont ajoutées automatiquement, quel que soit leur nom.
 3. **Settings → Environment Variables** : ajouter `ADMIN_PASSWORD` (et `ADMIN_USER` si besoin). Sans mot de passe, le back-office reste fermé.
 4. **Deployments → Redeploy**. Le site est en ligne ; chaque nouveau `git push` le met à jour tout seul.
