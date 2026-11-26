@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SearchBar } from "@/components/SearchBar";
 import { VehicleCard } from "@/components/VehicleCard";
@@ -29,8 +30,18 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="bg-night pb-20 pt-16 text-white">
-        <div className="mx-auto max-w-4xl px-4 text-center">
+      <section className="relative overflow-hidden bg-night pb-20 text-white">
+        <Image
+          src="/images/banniere-accueil.webp"
+          alt="Un client devant un SUV électrique noir, au coucher du soleil"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[30%_20%]"
+        />
+        {/* Dégradé : l'image reste visible en haut, le texte reste lisible en bas */}
+        <div className="absolute inset-0 bg-linear-to-t from-night from-30% via-night/75 via-55% to-night/10" />
+        <div className="relative mx-auto max-w-4xl px-4 pt-[clamp(14rem,34vw,26rem)] text-center">
           <p className="mb-4 text-sm uppercase tracking-[0.2em] text-brass">Occasion premium · France</p>
           <h1 className="font-serif text-4xl leading-tight md:text-6xl">Achetez votre voiture en toute confiance.</h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-white/75">{BRAND.tagline}</p>
